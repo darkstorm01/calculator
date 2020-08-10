@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <meta charset='utf-8'>
+        <meta name='viewport' content='width=device-width,initial-scale=1'>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <title>Scientific Calculator</title>
+        <style>
+            .num{
+                width:100%;
+                height:40px;
+                font-size:30px;
+                text-align:center;
+                border-width:1px;
+                border-color:rgb(0,0,0) ;
+                color:rgb(255,255,255);
+                background-color:rgb(111, 122, 124);
+                padding: 2px 8px;
+            }
+            #abc{
+                height:30px;
+                width:90%;
+                font-size:30px;
+                color:blue;
+                font-weight:bold;
+            }
+        </style>
+        <script>
+            function remove()
+            {
+                return calci.screen.value.slice(0,-1);
+            }
+            function factorial(a)
+            {
+                if(a==0 || a==1)
+                return 1;
+                return a*factorial(a-1);
+            }
+            function calculate()
+            {
+                a=calci.screen.value;
+                while(a.includes('!'))
+                {
+                    var size=a.length,i,pos;
+                    for(i=0;i<size;i++)
+                    {
+                        if(a[i]=='!')
+                        {
+                            pos=i;
+                            break;
+                        }
+                    }
+                    var temp1=a.slice(0,pos),temp2=a.slice(pos+1,size);
+                    if(temp1[pos-1]==')')
+                    {
+                        for(i=pos-1;i>=0;i--)
+                        {
+                            if(temp1[i]=='(')
+                            break;
+                        }
+                        var k=temp1.slice(i,pos);
+                        var b=factorial(Number(eval(k)));
+                        a=temp1.slice(0,i)+b.toString()+temp2;
+                    }
+                    else
+                    {
+                        for(i=pos-1;i>=0;i--)
+                        {
+                            if(a[i]<'0' || a[i]>'9')
+                            break;
+                        }
+                        if(i>=0)
+                        {
+                            var k=temp1.slice(i+1,pos);
+                            var b=factorial(Number(eval(k)));
+                            a=temp1.slice(0,i+1)+b.toString()+temp2;
+                        }
+                        else
+                        a=factorial(Number(eval(temp1))).toString()+temp2;
+                    }
+                }
+                return eval(a);
+            }
+            function recipocral()
+            {
+                return eval(1/calci.screen.value);
+            }
+        </script>
+    </head>
+    <body>
+        <div class='container'>
+            <h1 style='color:blue'><b>Scientific calculator</b></h1>
+            <p style='font-size:20px'> % is used for remainder</p>
+            <form name='calci'>
+                <table style='background-color:rgb(136, 164, 243); text-align:center'>
+                    <tr>
+                        <td colspan=5><input type='text' id='abc' name='screen' value=''></td>
+                    </tr>
+                    <tr>
+                        <td><input type='button' class='num' name='button' value='1' onclick="calci.screen.value+='1'"></td>
+                        <td><input type='button' class='num' name='button' value='2' onclick="calci.screen.value+='2'"></td>
+                        <td><input type='button' class='num' name='button' value='3' onclick="calci.screen.value+='3'"></td>
+                        <td><input type='button' class='num' name='button' value='DEL' onclick="calci.screen.value=remove()"></td>
+                        <td><input type='button' class='num' name='button' value='AC' onclick="calci.screen.value=''"></td>
+                    </tr>
+                    <tr>
+                        <td><input type='button' class='num' name='button' value='4' onclick="calci.screen.value+='4'"></td>
+                        <td><input type='button' class='num' name='button' value='5' onclick="calci.screen.value+='5'"></td>
+                        <td><input type='button' class='num' name='button' value='6' onclick="calci.screen.value+='6'"></td>
+                        <td><input type='button' class='num' name='button' value='exp' onclick="calci.screen.value+='Math.exp('"></td>
+                        <td><input type='button' class='num' name='button' value='ln' onclick="calci.screen.value+='Math.log('"></td>
+                    </tr>
+                    <tr>
+                        <td><input type='button' class='num' name='button' value='7' onclick="calci.screen.value+='7'"></td>
+                        <td><input type='button' class='num' name='button' value='8' onclick="calci.screen.value+='8'"></td>
+                        <td><input type='button' class='num' name='button' value='9' onclick="calci.screen.value+='9'"></td>
+                        <td><input type='button' class='num' name='button' value='sin' onclick="calci.screen.value+='Math.sin('"></td>
+                        <td><input type='button' class='num' name='button' value='1/x' onclick="calci.screen.value=recipocral()"></td>
+                    </tr>
+                    <tr>
+                        <td><input type='button' class='num' name='button' value='.' onclick="calci.screen.value+='.'"></td>
+                        <td><input type='button' class='num' name='button' value='0' onclick="calci.screen.value+='0'"></td>
+                        <td><input type='button' class='num' name='button' value='%' onclick="calci.screen.value+='%'"></td>
+                        <td><input type='button' class='num' name='button' value='cos' onclick="calci.screen.value+='Math.cos('"></td>
+                        <td><input type='button' class='num' name='button' value='n!' onclick="calci.screen.value+='!'"></td>
+                    </tr>
+                    <tr>
+                        <td><input type='button' class='num' name='button' value='+' onclick="calci.screen.value+='+'"></td>
+                        <td><input type='button' class='num' name='button' value='(' onclick="calci.screen.value+='('"></td>
+                        <td><input type='button' class='num' name='button' value=')' onclick="calci.screen.value+=')'"></td>
+                        <td><input type='button' class='num' name='button' value='tan' onclick="calci.screen.value+='Math.tan('"></td>
+                        <td><input type='button' class='num' name='button' value='pi' onclick="calci.screen.value+='3.14'"></td>
+                    </tr>
+                    <tr>
+                        <td><input type='button' class='num' name='button' value='-' onclick="calci.screen.value+='-'"></td>
+                        <td><input type='button' class='num' name='button' value='/' onclick="calci.screen.value+='/'"></td>
+                        <td><input type='button' class='num' name='button' value='*' onclick="calci.screen.value+='*'"></td>
+                        <td><input type='button' class='num' name='button' value='sqrt' onclick="calci.screen.value+='Math.sqrt('"></td>
+                        <td><input type='button' class='num' name='button' value='=' onclick="calci.screen.value=calculate()"></td>
+                    </tr>
+                </table>
+            </form>
+        </body>
+    </div>
+</html>
